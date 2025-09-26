@@ -1,6 +1,5 @@
-package com.uncannyvalley.cookflow.ui.theme
+package com.uncannyvalley.cookflow.presentation.theme
 
-import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
@@ -12,15 +11,19 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
-    primary = Purple80,
+    primary = primary,
     secondary = PurpleGrey80,
-    tertiary = Pink80
+    tertiary = Pink80,
+    outline = outline,
+    background = background
 )
 
 private val LightColorScheme = lightColorScheme(
-    primary = Purple40,
+    primary = primary,
     secondary = PurpleGrey40,
-    tertiary = Pink40
+    tertiary = Pink40,
+    outline = outline,
+    background = background
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
