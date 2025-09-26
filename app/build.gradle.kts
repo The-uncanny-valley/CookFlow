@@ -86,6 +86,7 @@ dependencies {
 
     // Image Loading
     implementation(libs.coil)
+    implementation(libs.coil.compose)
 
     // implementation(libs.javapoet)
     implementation(libs.javapoet)
