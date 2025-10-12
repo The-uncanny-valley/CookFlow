@@ -90,4 +90,7 @@ dependencies {
 
     // implementation(libs.javapoet)
     implementation(libs.javapoet)
+
+    // Coroutines
+    implementation(libs.kotlinx.coroutines.core)
 }
