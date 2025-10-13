@@ -1,7 +1,7 @@
 package com.uncannyvalley.cookflow.data.repository
 
 import com.uncannyvalley.cookflow.data.local.dao.RecipeDao
-import com.uncannyvalley.cookflow.data.remote.api.RecipeApiImpl
+import com.uncannyvalley.cookflow.data.remote.api.RecipeApi
 import com.uncannyvalley.cookflow.data.remote.dto.toEntity
 import com.uncannyvalley.cookflow.data.remote.dto.toIngredient
 import com.uncannyvalley.cookflow.data.remote.dto.toRecipe
@@ -12,7 +12,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 class RecipeRepositoryImpl(
-    private val api: RecipeApiImpl,
+    private val api: RecipeApi,
     private val dao: RecipeDao,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : RecipeRepository {
