@@ -10,8 +10,9 @@ import com.uncannyvalley.cookflow.domain.repository.RecipeRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import javax.inject.Inject
 
-class RecipeRepositoryImpl(
+class RecipeRepositoryImpl @Inject constructor(
     private val api: RecipeApi,
     private val dao: RecipeDao,
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
