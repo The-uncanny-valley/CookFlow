@@ -81,6 +81,7 @@ dependencies {
     // Hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler) // Use ksp for Hilt
+    implementation(libs.hilt.navigation.compose)
 
     // Networking
     implementation(libs.retrofit)
