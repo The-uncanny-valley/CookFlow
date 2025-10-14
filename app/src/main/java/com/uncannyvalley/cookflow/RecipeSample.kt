@@ -30,7 +30,13 @@ val sushi = Recipe(
     title = "How to make sushi at home",
     image = "sushi",
     summary = "By Niki Samantha",
-    instructions = "",
+    instructions = """
+        1. In a shallow bowl, whisk together eggs, milk, vanilla extract, and cinnamon.
+        2. Dip each slice of bread into the mixture, coating both sides.
+        3. Heat butter in a skillet over medium heat.
+        4. Cook bread slices until golden brown on both sides.
+        5. Serve warm with syrup, powdered sugar, or fresh fruit.
+    """.trimIndent(),
     ingredients = listOf(
         Ingredient("Sushi rice", 2.0, "cups"),
         Ingredient("Rice vinegar", 3.0, "tbsp"),
