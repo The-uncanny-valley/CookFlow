@@ -2,10 +2,20 @@ package com.uncannyvalley.cookflow.domain.usecase
 
 import com.uncannyvalley.cookflow.domain.model.Recipe
 import com.uncannyvalley.cookflow.domain.repository.RecipeRepository
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
 
-class GetRecipesUseCase(private val repository: RecipeRepository) {
-    suspend operator fun invoke(query: String? = null): Result<List<Recipe>> {
-        return repository.getRecipes(query)
+class GetRecipesUseCase @Inject constructor(
+    private val repository: RecipeRepository
+) {
+    suspend operator fun invoke(query: String? = null): Flow<Result<List<Recipe>>> = flow {
+        try {
+            val recipesResult: Result<List<Recipe>> = repository.getRecipes(query)
+            emit(recipesResult)
+        } catch (e: Exception) {
+            emit(Result.failure(e))
+        }
     }
 }
 
