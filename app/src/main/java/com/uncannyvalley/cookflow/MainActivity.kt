@@ -17,9 +17,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             CookFlowTheme {
-                CookFlowTheme {
-                    HomeScreen()
-                }
+                HomeScreen()
             }
         }
     }
