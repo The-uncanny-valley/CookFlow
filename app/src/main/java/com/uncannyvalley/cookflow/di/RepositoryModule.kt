@@ -19,5 +19,7 @@ object RepositoryModule {
     fun provideRecipeRepository(
         api: RecipeApi,
         db: RecipeDao
-    ): RecipeRepository = RecipeRepositoryImpl(api, db)
+    ): RecipeRepository {
+        return RecipeRepositoryImpl(api, db)
+    }
 }
