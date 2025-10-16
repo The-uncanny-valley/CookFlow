@@ -19,7 +19,9 @@ class GetRecipesUseCase @Inject constructor(
     }
 }
 
-class GetRecipeUseCase(private val repository: RecipeRepository) {
+class GetRecipeUseCase @Inject constructor(
+    private val repository: RecipeRepository
+) {
     suspend operator fun invoke(id: Int): Result<Recipe> {
         return repository.getRecipeById(id)
     }
