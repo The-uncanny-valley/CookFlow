@@ -15,6 +15,13 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+data class HomeUiState(
+    val isLoading: Boolean = true,
+    val categories: List<Category> = emptyList(),
+    val popularRecipes: List<Recipe> = emptyList(),
+    val errorMessage: String? = null
+)
+
 @HiltViewModel
 class RecipeViewModel @Inject constructor(
     private val getRecipesUseCase: GetRecipesUseCase,
