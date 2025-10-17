@@ -8,12 +8,12 @@ import kotlin.String
 
 data class RecipeDto(
     val id: Int,
-    val title: String,
-    val image: String,
-    val summary: String,
-    val instructions: String,
+    val title: String?,
+    val image: String?,
+    val summary: String?,
+    val instructions: String?,
     val dishTypes: List<String>?,
-    val extendedIngredients: List<IngredientDto>
+    val extendedIngredients: List<IngredientDto>?
 )
 
 data class IngredientDto(
@@ -25,11 +25,11 @@ data class IngredientDto(
 fun RecipeDto.toRecipe(): Recipe {
     return Recipe(
         id = id,
-        title = title,
-        image = image,
-        summary = summary.replace(Regex("<.*?>"), ""),
-        instructions = instructions.replace(Regex("<.*?>"), ""),
-        ingredients = extendedIngredients.map { it.toIngredient() },
+        title = title ?: "Untitled Recipe",
+        image = image ?: "",
+        summary = summary?.replace(Regex("<.*?>"), "") ?: "",
+        instructions = instructions?.replace(Regex("<.*?>"), "") ?: "",
+        ingredients = extendedIngredients?.map { it.toIngredient() } ?: emptyList(),
         dishType = dishTypes?.firstOrNull() ?: ""
     )
 }

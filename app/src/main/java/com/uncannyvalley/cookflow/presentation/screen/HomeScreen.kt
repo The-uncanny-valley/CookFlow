@@ -61,6 +61,7 @@ fun HomeScreen(
     val uiState by viewModel.uiState.collectAsState()
 
     val searchQuery = remember { mutableStateOf("") }
+    var selectedCategory by remember { mutableStateOf<Category?>(null) }
 
     if (uiState.isLoading) {
         Box(
@@ -72,8 +73,6 @@ fun HomeScreen(
         return
     }
 
-    val categories = uiState.categories
-    val popularRecipes = uiState.popularRecipes
     uiState.errorMessage?.let { message ->
         Box(
             modifier = Modifier.fillMaxSize(),
@@ -82,6 +81,13 @@ fun HomeScreen(
             Text(text = message, color = Color.Red)
         }
         return
+    }
+
+    // Filter recipes by selected category
+    val displayedRecipes = if (selectedCategory != null) {
+        uiState.popularRecipes.filter { it.dishType == selectedCategory!!.type.toString() }
+    } else {
+        uiState.popularRecipes
     }
 
     Scaffold { innerPadding ->
