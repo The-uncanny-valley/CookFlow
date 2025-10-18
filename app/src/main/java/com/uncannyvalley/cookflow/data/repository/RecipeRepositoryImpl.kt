@@ -1,5 +1,6 @@
 package com.uncannyvalley.cookflow.data.repository
 
+import android.util.Log
 import com.uncannyvalley.cookflow.data.local.dao.RecipeDao
 import com.uncannyvalley.cookflow.data.remote.api.RecipeApi
 import com.uncannyvalley.cookflow.data.remote.dto.toEntity
@@ -25,10 +26,15 @@ class RecipeRepositoryImpl @Inject constructor(
         Log.d("RecipeRepositoryImpl", "Fetching recipes from API, query = $query, type = $type")
         return withContext(dispatcher) {
             try {
-                val response = api.getRecipes(query = query)
                 val response = api.getRecipes(query = query, type = type)
 
+                Log.d(
+                    "RecipeRepositoryImpl",
+                    "API returned ${response.results.size} results for type=$type"
+                )
+
                 val recipes = response.results.map { it.toRecipe() }
+                Log.d("RecipeRepositoryImpl", "Mapped ${recipes.size} recipes")
 
                 dao.insertRecipes(recipes.map { it.toEntity() })
                 recipes.forEach { recipe ->
@@ -37,6 +43,8 @@ class RecipeRepositoryImpl @Inject constructor(
 
                 Result.success(recipes)
             } catch (e: Exception) {
+                Log.e("RecipeRepositoryImpl", "API Error: ${e.message}")
+
                 try {
                     val entities = if (query.isNullOrBlank()) {
                         dao.getAllRecipes()
@@ -47,8 +55,11 @@ class RecipeRepositoryImpl @Inject constructor(
                         val ingredients = dao.getIngredientsForRecipe(entity.id).map { it.toIngredient() }
                         entity.toRecipe().copy(ingredients = ingredients)
                     }
+
+                    Log.d("RecipeRepositoryImpl", "Loaded ${recipes.size} recipes from local DB fallback")
                     Result.success(recipes)
                 } catch (dbException: Exception) {
+                    Log.e("RecipeRepositoryImpl", "DB fallback failed: ${dbException.message}")
                     Result.failure(dbException)
                 }
             }

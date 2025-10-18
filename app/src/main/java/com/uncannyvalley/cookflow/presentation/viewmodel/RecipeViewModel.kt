@@ -1,5 +1,6 @@
 package com.uncannyvalley.cookflow.presentation.viewmodel
 
+import android.util.Log
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import com.uncannyvalley.cookflow.domain.model.Recipe
@@ -97,14 +98,20 @@ class RecipeViewModel @Inject constructor(
                     it.copy(isLoading = false, errorMessage = e.message ?: "Unexpected error")
                 }
             }
+        }
+    }
+
     fun loadRecipesByCategory(type: String) {
         viewModelScope.launch {
+            Log.d("RecipeViewModel", "Fetching recipes for category: $type")
+
             _uiState.update { it.copy(isLoading = true, errorMessage = null) }
 
             try {
                 getRecipesUseCase(type = type).collect { result ->
                     result
                         .onSuccess { recipes ->
+                            Log.d("RecipeViewModel", "Success! ${recipes.size} recipes loaded for $type")
                             // update both domain and ui state
                             _recipes.value = RecipeState.Success(recipes)
                             _uiState.update {
@@ -117,6 +124,7 @@ class RecipeViewModel @Inject constructor(
                             }
                         }
                         .onFailure { exception ->
+                            Log.e("RecipeViewModel", "Error fetching $type recipes")
                             _recipes.value = RecipeState.Error(exception.message ?: "Error")
                             _uiState.update {
                                 it.copy(
@@ -127,6 +135,7 @@ class RecipeViewModel @Inject constructor(
                         }
                 }
             } catch (e: Exception) {
+                Log.e("RecipeViewModel", "Unexpected exception: ${e.message}")
                 _recipes.value = RecipeState.Error("Unexpected error")
                 _uiState.update {
                     it.copy(isLoading = false, errorMessage = e.message ?: "Unexpected error")

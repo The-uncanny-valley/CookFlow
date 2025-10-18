@@ -1,5 +1,6 @@
 package com.uncannyvalley.cookflow.presentation.screen
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -86,6 +87,10 @@ fun HomeScreen(
     // Filter recipes by selected category
     val displayedRecipes = if (selectedCategory != null) {
         uiState.popularRecipes.filter { it.dishType == selectedCategory!!.type.toString() }
+        // Debug logs
+        Log.d("HomeScreen", "Selected category: ${selectedCategory!!.type}")
+        Log.d("HomeScreen", "All recipes' dishTypes: ${uiState.allRecipes.map { it.dishTypes }}")
+        Log.d("HomeScreen", "Filtered recipes count: ${filtered.size}")
     } else {
         uiState.popularRecipes
     }
@@ -140,6 +145,9 @@ fun HomeScreen(
                         category = category,
                         isSelected = category == selectedCategory,
                         onClick = { selectedCategory = it }
+                            // Log selected category
+                            Log.d("HomeScreen", "Selected category: ${it.type}")
+
                     )
                 }
             }

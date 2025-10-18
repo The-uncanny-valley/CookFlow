@@ -1,5 +1,6 @@
 package com.uncannyvalley.cookflow.data.remote.dto
 
+import android.util.Log
 import com.uncannyvalley.cookflow.data.local.entity.IngredientEntity
 import com.uncannyvalley.cookflow.data.local.entity.RecipeEntity
 import com.uncannyvalley.cookflow.domain.model.Ingredient
@@ -23,6 +24,10 @@ data class IngredientDto(
 )
 
 fun RecipeDto.toRecipe(): Recipe {
+    Log.d("RecipeDto", "Dish Types: $dishTypes")
+    // Log what will be assigned to Recipe.dishType
+    Log.d("RecipeDto", "Mapped dishType: $mappedDishType")
+
     return Recipe(
         id = id,
         title = title ?: "Untitled Recipe",
