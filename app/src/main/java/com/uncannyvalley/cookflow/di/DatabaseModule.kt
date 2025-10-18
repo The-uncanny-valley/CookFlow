@@ -2,6 +2,7 @@ package com.uncannyvalley.cookflow.di
 
 import android.content.Context
 import androidx.room.Room
+import com.uncannyvalley.cookflow.data.local.MIGRATION_1_2
 import com.uncannyvalley.cookflow.data.local.dao.RecipeDao
 import com.uncannyvalley.cookflow.data.local.database.RecipeDatabase
 import dagger.Module
@@ -24,7 +25,9 @@ object DatabaseModule {
             context,
             RecipeDatabase::class.java,
             "recipes.db"
-        ).build()
+        )
+            .addMigrations(MIGRATION_1_2)
+            .build()
     }
 
     @Provides

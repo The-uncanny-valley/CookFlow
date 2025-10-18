@@ -8,7 +8,7 @@ import com.uncannyvalley.cookflow.data.local.entity.RecipeEntity
 
 @Database(
     entities = [RecipeEntity::class, IngredientEntity::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 abstract class RecipeDatabase : RoomDatabase() {

@@ -19,10 +19,10 @@ interface RecipeDao {
     @Query("SELECT * FROM recipes WHERE title LIKE '%' || :query || '%'")
     suspend fun getRecipesByQuery(query: String): List<RecipeEntity>
 
-    @Query("SELECT * FROM recipes WHERE dishType = :type")
+    @Query("SELECT * FROM recipes WHERE dishTypes LIKE '%' || :type || '%'")
     suspend fun getRecipesByType(type: String): List<RecipeEntity>
 
-    @Query("SELECT DISTINCT dishType FROM recipes WHERE dishType IS NOT NULL AND dishType != ''")
+    @Query("SELECT DISTINCT dishTypes FROM recipes WHERE dishTypes IS NOT NULL AND dishTypes != ''")
     suspend fun getAllDishTypes(): List<String>
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
