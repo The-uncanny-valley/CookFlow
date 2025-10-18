@@ -21,6 +21,7 @@ data class HomeUiState(
     val isLoading: Boolean = true,
     val categories: List<Category> = emptyList(),
     val popularRecipes: List<Recipe> = emptyList(),
+    val allRecipes: List<Recipe> = emptyList(),
     val errorMessage: String? = null
 )
 
@@ -75,6 +76,7 @@ class RecipeViewModel @Inject constructor(
                                 it.copy(
                                     isLoading = false,
                                     popularRecipes = recipes.take(12),
+                                    allRecipes = recipes,
                                     errorMessage = null
                                 )
                             }
