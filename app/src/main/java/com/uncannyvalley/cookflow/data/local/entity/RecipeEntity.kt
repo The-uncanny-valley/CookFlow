@@ -10,7 +10,7 @@ data class RecipeEntity(
     val image: String,
     val summary: String,
     val instructions: String,
-    val dishType: String
+    val dishTypes: String
 )
 
 @Entity(tableName = "ingredients")

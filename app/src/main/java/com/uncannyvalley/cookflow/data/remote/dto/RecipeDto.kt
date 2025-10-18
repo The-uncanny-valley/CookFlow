@@ -24,7 +24,11 @@ data class IngredientDto(
 )
 
 fun RecipeDto.toRecipe(): Recipe {
+
     Log.d("RecipeDto", "Dish Types: $dishTypes")
+
+    val mappedDishType = dishTypes?.firstOrNull() ?: ""
+
     // Log what will be assigned to Recipe.dishType
     Log.d("RecipeDto", "Mapped dishType: $mappedDishType")
 
@@ -35,7 +39,7 @@ fun RecipeDto.toRecipe(): Recipe {
         summary = summary?.replace(Regex("<.*?>"), "") ?: "",
         instructions = instructions?.replace(Regex("<.*?>"), "") ?: "",
         ingredients = extendedIngredients?.map { it.toIngredient() } ?: emptyList(),
-        dishType = dishTypes?.firstOrNull() ?: ""
+        dishTypes = dishTypes?.map { it.lowercase() } ?: emptyList()
     )
 }
 
@@ -55,7 +59,7 @@ fun Recipe.toEntity(): RecipeEntity {
         image = image,
         summary = summary,
         instructions = instructions,
-        dishType = dishType
+        dishTypes = dishTypes.joinToString(",")
     )
 }
 
@@ -68,7 +72,7 @@ fun RecipeEntity.toRecipe(): Recipe {
         summary = summary,
         instructions = instructions,
         ingredients = emptyList(), // Ingredients loaded separately
-        dishType = dishType
+        dishTypes = if (dishTypes.isBlank()) emptyList() else dishTypes.split(",")
     )
 }
 
