@@ -95,6 +95,41 @@ class RecipeViewModel @Inject constructor(
                     it.copy(isLoading = false, errorMessage = e.message ?: "Unexpected error")
                 }
             }
+    fun loadRecipesByCategory(type: String) {
+        viewModelScope.launch {
+            _uiState.update { it.copy(isLoading = true, errorMessage = null) }
+
+            try {
+                getRecipesUseCase(type = type).collect { result ->
+                    result
+                        .onSuccess { recipes ->
+                            // update both domain and ui state
+                            _recipes.value = RecipeState.Success(recipes)
+                            _uiState.update {
+                                it.copy(
+                                    isLoading = false,
+                                    popularRecipes = recipes,
+                                    allRecipes = recipes,
+                                    errorMessage = null
+                                )
+                            }
+                        }
+                        .onFailure { exception ->
+                            _recipes.value = RecipeState.Error(exception.message ?: "Error")
+                            _uiState.update {
+                                it.copy(
+                                    isLoading = false,
+                                    errorMessage = exception.message ?: "Error"
+                                )
+                            }
+                        }
+                }
+            } catch (e: Exception) {
+                _recipes.value = RecipeState.Error("Unexpected error")
+                _uiState.update {
+                    it.copy(isLoading = false, errorMessage = e.message ?: "Unexpected error")
+                }
+            }
         }
     }
 }
