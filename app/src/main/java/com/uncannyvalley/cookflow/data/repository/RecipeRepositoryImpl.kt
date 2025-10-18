@@ -18,7 +18,11 @@ class RecipeRepositoryImpl @Inject constructor(
     private val dispatcher: CoroutineDispatcher = Dispatchers.IO
 ) : RecipeRepository {
 
-    override suspend fun getRecipes(query: String?): Result<List<Recipe>> {
+    override suspend fun getRecipes(
+        query: String?,
+        type: String?
+    ): Result<List<Recipe>> {
+        Log.d("RecipeRepositoryImpl", "Fetching recipes from API, query = $query, type = $type")
         return withContext(dispatcher) {
             try {
                 val response = api.getRecipes(query = query)
