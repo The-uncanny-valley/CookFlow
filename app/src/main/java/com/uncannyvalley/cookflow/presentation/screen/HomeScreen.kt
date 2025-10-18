@@ -86,13 +86,20 @@ fun HomeScreen(
 
     // Filter recipes by selected category
     val displayedRecipes = if (selectedCategory != null) {
-        uiState.popularRecipes.filter { it.dishType == selectedCategory!!.type.toString() }
+        val categoryType = selectedCategory!!.type.toString().lowercase()
+        uiState.allRecipes.filter { it.dishTypes.contains(categoryType) }
+
+        val filtered = uiState.allRecipes.filter { it.dishTypes.contains(categoryType) }
+
         // Debug logs
         Log.d("HomeScreen", "Selected category: ${selectedCategory!!.type}")
         Log.d("HomeScreen", "All recipes' dishTypes: ${uiState.allRecipes.map { it.dishTypes }}")
         Log.d("HomeScreen", "Filtered recipes count: ${filtered.size}")
+
+
+        filtered
     } else {
-        uiState.popularRecipes
+        uiState.popularRecipes.take(6)
     }
 
     Scaffold { innerPadding ->
@@ -137,17 +144,20 @@ fun HomeScreen(
                 )
             )
 
-            var selectedCategory by remember { mutableStateOf<Category?>(null) }
-
             LazyRow(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                items(categories) { category ->
+                items(uiState.categories) { category ->
                     CategoryItem(
                         category = category,
                         isSelected = category == selectedCategory,
-                        onClick = { selectedCategory = it }
+                        onClick = {
+                            selectedCategory = it
+
                             // Log selected category
                             Log.d("HomeScreen", "Selected category: ${it.type}")
 
+                            // Fetch recipes for that category from API
+                            viewModel.loadRecipesByCategory(it.type.toString().lowercase())
+                        }
                     )
                 }
             }
@@ -167,8 +177,8 @@ fun HomeScreen(
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
                 modifier = Modifier.weight(1f)
             ) {
-                items(popularRecipes) { recipe ->
-                    RecipeCard(recipe = recipe)
+                items(displayedRecipes) { recipe ->
+                    RecipeCard(recipe)
                 }
             }
         }
