@@ -10,7 +10,7 @@ class RecipeApiImpl @Inject constructor(
 ) {
 
     suspend fun getRecipes(query: String? = null, type: String? = null): RecipeResponse {
-        return api.getRecipes(query, type, apiKey)
+        return api.getRecipes(query, type, apiKey = apiKey)
     }
 
     suspend fun getRecipeById(id: Int): RecipeDto {

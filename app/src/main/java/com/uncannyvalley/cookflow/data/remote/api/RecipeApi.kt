@@ -12,6 +12,7 @@ interface RecipeApi {
     suspend fun getRecipes(
         @Query("query") query: String? = null,
         @Query("type") type: String? = null,
+        @Query("addRecipeInformation") addRecipeInformation: Boolean = true,
         @Query("apiKey") apiKey: String = BuildConfig.API_KEY
     ): RecipeResponse
 
