@@ -26,6 +26,7 @@ class RecipeRepositoryImpl @Inject constructor(
         return withContext(dispatcher) {
             try {
                 val response = api.getRecipes(query = query)
+                val response = api.getRecipes(query = query, type = type)
 
                 val recipes = response.results.map { it.toRecipe() }
 
