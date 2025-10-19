@@ -40,6 +40,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -170,9 +172,20 @@ fun HomeScreen(
                 color = on_background
             )
 
+            val windowInfo = LocalWindowInfo.current
+            val containerWidth = with(LocalDensity.current) {
+                windowInfo.containerSize.width.toDp()
+            }
+
+            val columns = when {
+                containerWidth >= 840.dp -> 3
+                containerWidth >= 600.dp -> 2 // tablet
+                else -> 1 // phone
+            }
+
             // Recipe Cards Grid
             LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
+                columns = GridCells.Fixed(columns),
                 verticalArrangement = Arrangement.spacedBy(16.dp),
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
                 modifier = Modifier.weight(1f)
@@ -302,9 +315,20 @@ fun HomeScreenContent(
             color = MaterialTheme.colorScheme.onBackground
         )
 
+        val windowInfo = LocalWindowInfo.current
+        val containerWidth = with(LocalDensity.current) {
+            windowInfo.containerSize.width.toDp()
+        }
+
+        val columns = when {
+            containerWidth >= 840.dp -> 3
+            containerWidth >= 600.dp -> 2 // tablet
+            else -> 1 // phone
+        }
+
         // Recipe Cards Grid
         LazyVerticalGrid(
-            columns = GridCells.Fixed(2),
+            columns = GridCells.Fixed(columns),
             verticalArrangement = Arrangement.spacedBy(16.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             modifier = Modifier.weight(1f)
