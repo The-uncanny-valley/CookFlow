@@ -2,6 +2,7 @@ package com.uncannyvalley.cookflow
 
 import com.uncannyvalley.cookflow.domain.model.Ingredient
 import com.uncannyvalley.cookflow.domain.model.Recipe
+import kotlin.collections.listOf
 
 val frenchToast = Recipe(
     id = 1,
@@ -22,7 +23,7 @@ val frenchToast = Recipe(
         Ingredient("Butter", 2.0, "tbsp"),
         Ingredient("Vanilla", 2.0, "tbsp")
     ),
-    dishType = "Breakfast"
+    dishTypes = listOf("Breakfast")
 )
 
 val sushi = Recipe(
@@ -51,5 +52,5 @@ val sushi = Recipe(
         Ingredient("Pickled ginger", 2.0, "tbsp"),
         Ingredient("Wasabi", 1.0, "tsp")
     ),
-    dishType = "Appetizer"
+    dishTypes = listOf("Appetizer")
 )
