@@ -17,6 +17,6 @@ val primary = Color(0xFFE23E3E)
 val secondary = Color(0xFFEE8B8B)
 
 val background = Color(0xFFFFFFFF)
-val on_background = neutral90
+val on_surface = neutral90
 
 val outline = neutral20

@@ -44,6 +44,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.platform.LocalWindowInfo
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
@@ -117,7 +118,7 @@ fun HomeScreen(
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold,
                 modifier = Modifier.padding(bottom = 20.dp),
-                color = on_background
+                color = on_surface
             )
 
             // Search Bar
@@ -169,7 +170,7 @@ fun HomeScreen(
                 text = "Popular Recipes",
                 style = MaterialTheme.typography.titleMedium,
                 modifier = Modifier.padding(bottom = 16.dp, top = 24.dp),
-                color = on_background
+                color = MaterialTheme.colorScheme.onSurface
             )
 
             val windowInfo = LocalWindowInfo.current
@@ -217,7 +218,7 @@ fun CategoryItem(
         Text(
             text = category.type.toString(),
             color = if (isSelected) Color.White
-            else MaterialTheme.colorScheme.primary,
+            else MaterialTheme.colorScheme.secondary,
             fontWeight = FontWeight.Medium
         )
     }
@@ -230,7 +231,9 @@ fun RecipeCard(recipe: Recipe) {
             .fillMaxWidth()
             .clickable { /* Handle recipe click */ },
         shape = RoundedCornerShape(10.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+        colors = CardDefaults.cardColors(
+            containerColor = Color.Transparent
+        )
     ) {
         Column {
             // Recipe Image
@@ -254,7 +257,9 @@ fun RecipeCard(recipe: Recipe) {
                     style = MaterialTheme.typography.titleSmall.copy(
                         fontWeight = FontWeight.Bold
                     ),
-                    maxLines = 1
+                    color = MaterialTheme.colorScheme.onSurface,
+                    maxLines = 1,
+                    overflow = TextOverflow.Ellipsis
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
