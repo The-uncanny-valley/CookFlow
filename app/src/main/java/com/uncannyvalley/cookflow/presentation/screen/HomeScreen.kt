@@ -186,7 +186,7 @@ fun HomeScreen(
             // Recipe Cards Grid
             LazyVerticalGrid(
                 columns = GridCells.Fixed(columns),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
+                verticalArrangement = Arrangement.spacedBy(28.dp),
                 horizontalArrangement = Arrangement.spacedBy(16.dp),
                 modifier = Modifier.weight(1f)
             ) {
@@ -247,7 +247,7 @@ fun RecipeCard(recipe: Recipe) {
 
             // Recipe Info
             Column(
-                modifier = Modifier.padding(12.dp)
+                modifier = Modifier.padding(top = 12.dp)
             ) {
                 Text(
                     text = recipe.title,
@@ -329,7 +329,7 @@ fun HomeScreenContent(
         // Recipe Cards Grid
         LazyVerticalGrid(
             columns = GridCells.Fixed(columns),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
+            verticalArrangement = Arrangement.spacedBy(28.dp),
             horizontalArrangement = Arrangement.spacedBy(16.dp),
             modifier = Modifier.weight(1f)
         ) {
