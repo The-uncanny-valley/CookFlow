@@ -13,4 +13,6 @@ val secondary = Color(0xFFEE8B8B)
 val background = Color(0xFFFFFFFF)
 val on_surface = neutral90
 
+val recipe_card_color = neutral40
+
 val outline = neutral20

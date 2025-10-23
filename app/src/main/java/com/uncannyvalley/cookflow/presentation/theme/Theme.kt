@@ -13,24 +13,23 @@ import androidx.compose.ui.platform.LocalContext
 
 private val DarkColorScheme = darkColorScheme(
     primary = primary,
-    secondary = PurpleGrey80,
+    onPrimary = Color.White,
     secondary = secondary,
-    tertiary = Pink80,
     outline = outline,
-    background = background
     background = background,
     onSurface = on_surface,
 )
 
 private val LightColorScheme = lightColorScheme(
     primary = primary,
-    secondary = PurpleGrey40,
+    onPrimary = Color.White,
     secondary = secondary,
-    tertiary = Pink40,
+    onBackground = on_surface,
+    onPrimaryContainer = on_surface,
     outline = outline,
-    background = background
     background = background,
-    onSurface = on_surface
+    onSurface = on_surface,
+    surfaceVariant = recipe_card_color
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
