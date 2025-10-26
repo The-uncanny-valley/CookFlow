@@ -1,15 +1,15 @@
 package com.uncannyvalley.cookflow.presentation.viewmodel
 
 import android.util.Log
+import androidx.compose.runtime.State
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
-import com.uncannyvalley.cookflow.domain.model.Recipe
-import com.uncannyvalley.cookflow.domain.usecase.GetRecipeUseCase
-import com.uncannyvalley.cookflow.domain.usecase.GetRecipesUseCase
-import androidx.compose.runtime.State
 import androidx.lifecycle.viewModelScope
 import com.uncannyvalley.cookflow.domain.model.Category
+import com.uncannyvalley.cookflow.domain.model.Recipe
 import com.uncannyvalley.cookflow.domain.model.RecipeType
+import com.uncannyvalley.cookflow.domain.usecase.GetRecipeUseCase
+import com.uncannyvalley.cookflow.domain.usecase.GetRecipesUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -23,7 +23,8 @@ data class HomeUiState(
     val categories: List<Category> = emptyList(),
     val popularRecipes: List<Recipe> = emptyList(),
     val allRecipes: List<Recipe> = emptyList(),
-    val errorMessage: String? = null
+    val errorMessage: String? = null,
+    val currentRecipe: Recipe? = null
 )
 
 @HiltViewModel
@@ -40,12 +41,12 @@ class RecipeViewModel @Inject constructor(
 
     // sample of categories
     private val defaultCategories = listOf(
-            Category(1, RecipeType.SALAD),
-            Category(2, RecipeType.BREAKFAST),
-            Category(3, RecipeType.SOUP),
-            Category(4, RecipeType.FINGERFOOD),
-            Category(5, RecipeType.APPETIZER),
-            Category(6, RecipeType.MAIN_COURSE)
+        Category(1, RecipeType.SALAD),
+        Category(2, RecipeType.BREAKFAST),
+        Category(3, RecipeType.SOUP),
+        Category(4, RecipeType.FINGERFOOD),
+        Category(5, RecipeType.APPETIZER),
+        Category(6, RecipeType.MAIN_COURSE)
     )
 
     private val _uiState = MutableStateFlow(
@@ -53,7 +54,9 @@ class RecipeViewModel @Inject constructor(
             isLoading = true,
             categories = defaultCategories,
             popularRecipes = emptyList(),
-            errorMessage = null
+            errorMessage = null,
+            allRecipes = emptyList(),
+            currentRecipe = null
         )
     )
     val uiState: StateFlow<HomeUiState> = _uiState.asStateFlow()
@@ -111,7 +114,10 @@ class RecipeViewModel @Inject constructor(
                 getRecipesUseCase(type = type).collect { result ->
                     result
                         .onSuccess { recipes ->
-                            Log.d("RecipeViewModel", "Success! ${recipes.size} recipes loaded for $type")
+                            Log.d(
+                                "RecipeViewModel",
+                                "Success! ${recipes.size} recipes loaded for $type"
+                            )
                             // update both domain and ui state
                             _recipes.value = RecipeState.Success(recipes)
                             _uiState.update {
@@ -139,6 +145,50 @@ class RecipeViewModel @Inject constructor(
                 _recipes.value = RecipeState.Error("Unexpected error")
                 _uiState.update {
                     it.copy(isLoading = false, errorMessage = e.message ?: "Unexpected error")
+                }
+            }
+        }
+    }
+
+    fun loadRecipeById(recipeId: Int) {
+        viewModelScope.launch {
+            _uiState.update { it.copy(isLoading = true, errorMessage = null) }
+            _selectedRecipe.value = RecipeDetailState.Loading
+
+            try {
+                val result = getRecipeUseCase(recipeId)
+                result
+                    .onSuccess { recipe ->
+                        _selectedRecipe.value = RecipeDetailState.Success(recipe)
+                        _uiState.update {
+                            it.copy(
+                                isLoading = false,
+                                currentRecipe = recipe,
+                                errorMessage = null
+                            )
+                        }
+                    }
+                    .onFailure { exception ->
+                        _selectedRecipe.value = RecipeDetailState.Error(
+                            exception.message ?: "Failed to load recipe"
+                        )
+                        _uiState.update { it.copy(
+                            isLoading = false,
+                            currentRecipe = null,
+                            errorMessage = exception.message ?: "Failed to load recipe"
+                        ) }
+                    }
+            } catch (e: Exception) {
+                _selectedRecipe.value = RecipeDetailState.Error(
+                    "Unexpected error: ${e.message ?: "Unknown error"}"
+                )
+
+                _uiState.update {
+                    it.copy(
+                        isLoading = false,
+                        currentRecipe = null,
+                        errorMessage = "Unexpected error: ${e.message ?: "Unknown error"}"
+                    )
                 }
             }
         }
