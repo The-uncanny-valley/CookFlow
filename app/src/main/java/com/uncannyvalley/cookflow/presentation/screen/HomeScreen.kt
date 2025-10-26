@@ -60,7 +60,8 @@ import coil.compose.AsyncImage
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun HomeScreen(
-    viewModel: RecipeViewModel = hiltViewModel()
+    viewModel: RecipeViewModel = hiltViewModel(),
+    onRecipeClick: (Recipe) -> Unit = {}
 ) {
     val uiState by viewModel.uiState.collectAsState()
 
@@ -192,7 +193,10 @@ fun HomeScreen(
                 modifier = Modifier.weight(1f)
             ) {
                 items(displayedRecipes) { recipe ->
-                    RecipeCard(recipe)
+                    RecipeCard(
+                        recipe = recipe,
+                        onRecipeClick = { onRecipeClick(recipe) }
+                    )
                 }
             }
         }
@@ -225,11 +229,14 @@ fun CategoryItem(
 }
 
 @Composable
-fun RecipeCard(recipe: Recipe) {
+fun RecipeCard(
+    recipe: Recipe,
+    onRecipeClick: (Recipe) -> Unit
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
-            .clickable { /* Handle recipe click */ },
+            .clickable { onRecipeClick(recipe) },
         shape = RoundedCornerShape(10.dp),
         colors = CardDefaults.cardColors(
             containerColor = Color.Transparent
@@ -260,13 +267,6 @@ fun RecipeCard(recipe: Recipe) {
                     color = MaterialTheme.colorScheme.onSurface,
                     maxLines = 1,
                     overflow = TextOverflow.Ellipsis
-                )
-                Spacer(modifier = Modifier.height(4.dp))
-                Text(
-                    text = recipe.instructions,
-                    style = MaterialTheme.typography.bodySmall,
-                    color = Color.Gray,
-                    maxLines = 2
                 )
             }
         }
@@ -339,7 +339,10 @@ fun HomeScreenContent(
             modifier = Modifier.weight(1f)
         ) {
             items(popularRecipes) { recipe ->
-                RecipeCard(recipe = recipe)
+                RecipeCard(
+                    recipe = recipe,
+                    onRecipeClick = { onRecipeClick(recipe) }
+                )
             }
         }
     }
