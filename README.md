@@ -3,8 +3,6 @@
 CookFlow is a simple Android application that helps users discover recipes based on category or name.  
 It fetches data from the [Spoonacular API](https://spoonacular.com/food-api) and provides details such as instructions and ingredients.  
 
-> **Note:** This project is still under development. The UI and core logic are not fully implemented yet.
-
 ## Features (planned)
 - Search recipes by **category** or **name**
 - Display results as cards
@@ -22,6 +20,15 @@ It fetches data from the [Spoonacular API](https://spoonacular.com/food-api) and
 
 ## API
 This app integrates with the [Spoonacular API](https://spoonacular.com/food-api) for recipe data.
+
+## Screenshots
+
+<table>
+  <tr>
+    <td><img src="screenshots/HomeScreen.png" width="200"/></td>
+    <td><img src="screenshots/RecipeDetailScreen.png" width="200"/></td>
+  </tr>
+</table>
 
 ## Project Status
 The project is currently a work in progress.
