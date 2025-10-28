@@ -28,13 +28,21 @@ val Typography = Typography(
         letterSpacing = 0.sp
     ),
 
+    bodyMedium = TextStyle(
+        fontFamily = Poppins,
+        fontWeight = FontWeight.Bold,
+        fontSize = 16.sp,
+        lineHeight = 22.4.sp,
+        letterSpacing = 0.sp
+    ),
+
     titleLarge = TextStyle(
         fontFamily = Poppins,
         fontWeight = FontWeight.Bold,
         fontSize = 24.sp,
         lineHeight = 28.8.sp,
         letterSpacing = 0.sp,
-        color = on_background
+        color = on_surface
     ),
 
     titleMedium = TextStyle(
@@ -42,7 +50,7 @@ val Typography = Typography(
         fontWeight = FontWeight.SemiBold,
         fontSize = 20.sp,
         letterSpacing = 0.sp,
-        color = on_background,
+        color = on_surface,
         lineHeight = 28.sp
     ),
 
