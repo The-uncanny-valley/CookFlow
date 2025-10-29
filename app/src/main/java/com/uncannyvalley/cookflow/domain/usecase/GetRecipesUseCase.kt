@@ -10,11 +10,17 @@ import javax.inject.Inject
 class GetRecipesUseCase @Inject constructor(
     private val repository: RecipeRepository
 ) {
-    suspend operator fun invoke(query: String? = null, type: String? = null): Flow<Result<List<Recipe>>> = flow {
+    operator fun invoke(
+        query: String? = null,
+        type: String? = null
+    ): Flow<Result<List<Recipe>>> = flow {
         Log.d("GetRecipesUseCase", "Invoked with query = $query")
         try {
             val recipesResult: Result<List<Recipe>> = repository.getRecipes(query, type)
-            Log.d("GetRecipesUseCase", "Repository returned ${recipesResult.getOrNull()?.size ?: 0} recipes")
+            Log.d(
+                "GetRecipesUseCase",
+                "Repository returned ${recipesResult.getOrNull()?.size ?: 0} recipes"
+            )
             emit(recipesResult)
         } catch (e: Exception) {
             Log.e("GetRecipesUseCase", "Exception: ${e.message}")
@@ -26,7 +32,7 @@ class GetRecipesUseCase @Inject constructor(
 class GetRecipeUseCase @Inject constructor(
     private val repository: RecipeRepository
 ) {
-    suspend operator fun invoke(id: Int): Result<Recipe> {
-        return repository.getRecipeById(id)
+    suspend operator fun invoke(recipeId: Int): Result<Recipe> {
+        return repository.getRecipeById(recipeId)
     }
 }
