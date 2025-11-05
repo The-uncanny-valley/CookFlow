@@ -12,12 +12,3 @@ data class RecipeEntity(
     val instructions: String,
     val dishTypes: String
 )
-
-@Entity(tableName = "ingredients")
-data class IngredientEntity(
-    @PrimaryKey(autoGenerate = true) val id: Int = 0,
-    val recipeId: Int,
-    val name: String,
-    val amount: Double,
-    val unit: String
-)
