@@ -18,6 +18,7 @@ private val DarkColorScheme = darkColorScheme(
     outline = outline,
     background = background,
     onSurface = on_surface,
+    surfaceVariant = AntiFlashWhite
 )
 
 private val LightColorScheme = lightColorScheme(
@@ -29,7 +30,7 @@ private val LightColorScheme = lightColorScheme(
     outline = outline,
     background = background,
     onSurface = on_surface,
-    surfaceVariant = recipe_card_color
+    surfaceVariant = AntiFlashWhite
 
     /* Other default colors to override
     background = Color(0xFFFFFBFE),
